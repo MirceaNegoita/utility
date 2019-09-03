@@ -17,7 +17,9 @@ import {
     ListItemText 
 } from '@material-ui/core';
 import {
-    Inbox
+    Apps,
+    Visibility,
+    FileCopy
 } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 
@@ -110,10 +112,24 @@ class MainLayout extends Component{
                 <div className={classes.list}>
                     <Divider />
                     <List>
-                        <Link to="/" className={classes.link}>
+                        <Link to="/" className={classes.link} disabled>
                             <ListItem button key="sets">
-                                <ListItemIcon><Inbox /></ListItemIcon>
-                                <ListItemText primary="Sets" />
+                                <ListItemIcon><Apps/></ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                        </Link>
+                        <Divider/>
+                        <Link to="/sets" className={classes.link}>
+                            <ListItem button key="sets">
+                                <ListItemIcon><FileCopy/></ListItemIcon>
+                                <ListItemText primary="Compare Files" />
+                            </ListItem>
+                        </Link>
+                        <Divider/>
+                        <Link to="/ocr" className={classes.link}>
+                            <ListItem button key="ocr">
+                                <ListItemIcon><Visibility/></ListItemIcon>
+                                <ListItemText primary="OCR" />
                             </ListItem>
                         </Link>
                     </List>
