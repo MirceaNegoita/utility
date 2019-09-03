@@ -1,6 +1,4 @@
 import {Router} from 'express';
-import fs from 'fs';
-import textract from 'textract';
 
 import Set from '../models/Set';
 import AuthMiddleware from '../middleware/auth';
