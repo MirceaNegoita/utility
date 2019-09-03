@@ -49,23 +49,29 @@ class DiffAll extends Component{
     }
 
     loadSets(){
-        ApiHelper.get("sets").then(sets => {
-            this.setState({
-                sets: sets.data,
-                loading: false
-            });
-        }).catch(error => {
-            console.log("Error", error)
+        ApiHelper.get("sets")
+        .then(response => {
+            if (response.data) {
+                this.setState({
+                    sets: response.data,
+                    loading: false
+                });
+            }
         })
+        .catch(error => {
+            console.log("Error", error)
+        });
     }
 
     deleteSet(event, setId){
         this.setState({loading:false});
-        ApiHelper.delete(`sets/${setId}`).then(response => {
+        ApiHelper.delete(`sets/${setId}`)
+        .then(response => {
             if (response.status === 200) {
                 this.setState({ loading: false }, this.loadSets());
             }
-        }).catch(error => {
+        })
+        .catch(error => {
             console.log("Error", error);
         });
     }
@@ -79,7 +85,8 @@ class DiffAll extends Component{
     }
 
     get setsTable(){
-        const {sets} = this.state;
+        const { sets} = this.state;
+        const { classes } = this.props;
 
         return (
             <Table>
@@ -87,7 +94,7 @@ class DiffAll extends Component{
                     <TableRow>
                         <TableCell>ID</TableCell>
                         <TableCell>Type</TableCell>
-                        <TableCell>Created On</TableCell>
+                        <TableCell>Created At</TableCell>
                         <TableCell>View</TableCell>
                         <TableCell>Delete</TableCell>
                     </TableRow>
@@ -99,7 +106,7 @@ class DiffAll extends Component{
                             <TableCell>{set.type}</TableCell>
                             <TableCell>{moment(set.createdAt).format("DD/MM/YY")}</TableCell>
                             <TableCell>
-                                <Link to={"/view/" + set._id} id={set._id} style={{textDecoration:"none"}}>
+                                <Link to={"/sets/view/" + set._id} id={set._id} className={classes.linkButton}>
                                     <Button color="primary" variant="contained">View</Button>
                                 </Link>
                             </TableCell>
@@ -114,7 +121,8 @@ class DiffAll extends Component{
     }
 
     render(){
-        const {sets, loading} = this.state;
+        const { sets, loading } = this.state;
+        const { classes } = this.props;
 
         if (loading) {
             return this.loadingCircular;
@@ -122,19 +130,19 @@ class DiffAll extends Component{
 
         return(
             <Container>
-                <Paper style={styles.paper}>
+                <Paper className={classes.paper}>
                     <Grid container spacing={3}>
                         <Grid item xs={10}>
                             <Typography component="h1" variant="h4">Sets</Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Link to="/create" style={styles.linkButton}>
+                            <Link to="/sets/create" className={classes.linkButton}>
                                 <Button color="primary" variant="contained">New set</Button>
                             </Link>
                         </Grid>
                     </Grid>
                 </Paper>
-                <Paper style={styles.paper}>
+                <Paper className={classes.paper}>
                     {sets.length > 0 ? this.setsTable : this.noSetsMessage}
                 </Paper>
             </Container>

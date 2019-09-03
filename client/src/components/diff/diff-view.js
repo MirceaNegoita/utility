@@ -37,7 +37,8 @@ class DiffView extends Component{
     componentDidMount(){
         const { match } = this.props;
 
-        ApiHelper.get(`sets/${match.params.id}`).then(response => {
+        ApiHelper.get(`sets/${match.params.id}`)
+        .then(response => {
             if (response.data) {
                 this.setState({
                     set: response.data.set,
@@ -46,7 +47,8 @@ class DiffView extends Component{
                     loading: false
                 });
             }
-        }).catch(error => {
+        })
+        .catch(error => {
             console.log("Error", error);
         });
     }
@@ -57,7 +59,7 @@ class DiffView extends Component{
 
         return (
             <Paper className={classes.paper}>
-                <Typography variant="h4" style={{ textAlign: "center" }}>{set._id}</Typography>
+                <Typography variant="h4" className={classes.header}>{set._id}</Typography>
                 <p><span><b>Type:</b></span>{set.type}</p>
                 <p><span><b>First file:</b></span>{set.firstFile.name}</p>
                 <p><span><b>Second file:</b></span>{set.secondFile.name}</p>
