@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core';
 // Internal imports
 import ApiHelper from '../../helpers/api';
 import DashboardWidget from '../../core/dashboard-widget';
-import { ErrorOutline } from '@material-ui/icons';
 
 const styles = {
     errorMessage: {
