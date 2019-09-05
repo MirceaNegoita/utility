@@ -25,8 +25,8 @@ class Routes extends Component {
                     <AppRoute exact path="/" layout={MainLayout} component={Dashboard}></AppRoute>
 
                     <AppRoute exact path="/sets" layout={MainLayout} component={DiffAll}></AppRoute>
-                    <AppRoute exact path="sets/create" layout={MainLayout} component={DiffCreate}></AppRoute>
-                    <AppRoute exact path="sets/view/:id" layout={MainLayout} id="" component={DiffView}></AppRoute>
+                    <AppRoute exact path="/sets/create" layout={MainLayout} component={DiffCreate}></AppRoute>
+                    <AppRoute exact path="/sets/view/:id" layout={MainLayout} id="" component={DiffView}></AppRoute>
 
                     <AppRoute exact path="/ocr" layout={MainLayout} component={OcrAll}></AppRoute>
                     <AppRoute exact path="/ocr/create" layout={MainLayout} component={OcrCreate}></AppRoute>
