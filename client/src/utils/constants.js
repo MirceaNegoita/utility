@@ -4,3 +4,8 @@ export const COMPARISON_TYPES = {
     files: "files",
     folders: "folders"
 };
+
+export const WIDGET_TYPES = {
+    sets: "sets",
+    ocrs: "ocrs"
+};
