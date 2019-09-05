@@ -7,20 +7,16 @@ import moment from 'moment';
 import {
     CircularProgress,
     Paper,
-    Table,
-    TableHead,
-    TableBody,
-    TableCell,
-    TableRow,
     Button,
     Typography,
     Container,
     Grid
 } from '@material-ui/core';
-import { withStyles, mergeClasses } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 
 // Internal imports
 import ApiHelper from '../../helpers/api';
+import CustomTable from '../../core/custom-table';
 
 const styles = {
     paper: {
@@ -83,46 +79,26 @@ class OcrAll extends Component{
         return <Typography variant="h5" color="inherit">No ocr output has been created yet</Typography>
     }
 
-    get ocrTable(){
+    get formatedData(){
         const { ocrs } = this.state;
 
-        return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>FileName</TableCell>
-                        <TableCell>Created At</TableCell>
-                        <TableCell>View</TableCell>
-                        <TableCell>Delete</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {ocrs.map(ocr => (
-                        <TableRow key={ocr._id}>
-                            <TableCell>{ocr._id}</TableCell>
-                            <TableCell>{ocr.inputFile}</TableCell>
-                            <TableCell>{moment(ocr.createdAt).format("DD/MM/YY")}</TableCell>
-                            <TableCell>
-                                <Link to={`/ocr/view/${ocr._id}`}>
-                                    <Button color="primary" variant="contained">View</Button>
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Link>
-                                    <Button color="primary" variant="contained" onClick={event => this.deleteOcr(event, ocr._id)}>Delete</Button>
-                                </Link>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        )
+        return ocrs.map(ocr => {
+            return {
+                ID: ocr._id,
+                InputFile: ocr.inputFile,
+                CreatedAt: moment(ocr.createdAt).format("DD/MM/YYYY"),
+                View: (<Link to={`/ocr/view/${ocr._id}`}>
+                    <Button color="primary" variant="contained">View</Button>
+                </Link>),
+                Delete: (<Button color="primary" variant="contained" onClick={event => this.deleteOcr(event, ocr._id)}>Delete</Button>)
+            }
+        });
     }
 
     render(){
         const { ocrs, loading } = this.state;
         const { classes } = this.props;
+        const labels = ["ID", "InputFile", "CreatedAt", "View", "Delete"];
 
         if (loading) {
             return this.loadingCircular;
@@ -143,7 +119,7 @@ class OcrAll extends Component{
                     </Grid>
                 </Paper>
                 <Paper className={classes.paper}>
-                    {ocrs.length > 0 ? this.ocrTable : this.noDataMessage }
+                    {ocrs.length > 0 ? <CustomTable labels={labels} data={this.formatedData} /> : this.noDataMessage }
                 </Paper>
             </Container>
         );

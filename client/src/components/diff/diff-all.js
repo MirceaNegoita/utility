@@ -7,11 +7,6 @@ import moment from 'moment';
 import {
     CircularProgress, 
     Paper, 
-    Table ,
-    TableHead, 
-    TableBody, 
-    TableCell, 
-    TableRow, 
     Button, 
     Typography, 
     Container, 
@@ -21,6 +16,7 @@ import { withStyles } from '@material-ui/styles';
 
 // Helpers Imports
 import ApiHelper from '../../helpers/api';
+import CustomTable from '../../core/custom-table';
 
 const styles = {
     paper: {
@@ -84,45 +80,27 @@ class DiffAll extends Component{
         return (<Typography variant="h5" color="inherit">No sets have been created</Typography>);
     }
 
-    get setsTable(){
-        const { sets} = this.state;
+    get formatedData(){
+        const { sets } = this.state;
         const { classes } = this.props;
-
-        return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Type</TableCell>
-                        <TableCell>Created At</TableCell>
-                        <TableCell>View</TableCell>
-                        <TableCell>Delete</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {sets.map(set => (
-                        <TableRow key={set._id}>
-                            <TableCell>{set._id}</TableCell>
-                            <TableCell>{set.type}</TableCell>
-                            <TableCell>{moment(set.createdAt).format("DD/MM/YY")}</TableCell>
-                            <TableCell>
-                                <Link to={"/sets/view/" + set._id} id={set._id} className={classes.linkButton}>
-                                    <Button color="primary" variant="contained">View</Button>
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Button color="secondary" variant="contained" onClick={event => this.deleteSet(event, set._id)}>Delete</Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        );
+        
+        return sets.map(set => { 
+            return { 
+                ID: set._id, 
+                Type: set.type,
+                CreatedAt: moment(set.createdAt).format("DD/MM/YY"),
+                View: (<Link to={"/sets/view/" + set._id} className={classes.linkButton}>
+                    <Button color="primary" variant="contained">View</Button>
+                </Link>),
+                Delete: (<Button color="secondary" variant="contained" onClick={event => this.deleteSet(event, set._id)}>Delete</Button>) 
+            }
+         });
     }
 
     render(){
         const { sets, loading } = this.state;
         const { classes } = this.props;
+        const labels = ["ID", "Type", "CreatedAt", "View", "Delete"];
 
         if (loading) {
             return this.loadingCircular;
@@ -143,7 +121,7 @@ class DiffAll extends Component{
                     </Grid>
                 </Paper>
                 <Paper className={classes.paper}>
-                    {sets.length > 0 ? this.setsTable : this.noSetsMessage}
+                    {sets.length > 0 ? <CustomTable labels={labels} data={this.formatedData} /> : this.noSetsMessage}
                 </Paper>
             </Container>
         );
