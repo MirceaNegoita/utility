@@ -1,5 +1,6 @@
 // Internal imports
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // Material UI imports
 import { withStyles } from '@material-ui/styles';
@@ -55,6 +56,13 @@ class FolderInput extends Component{
         );
     }
 }
+
+FolderInput.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    onFileChange: PropTypes.func
+
+};
 
 export default withStyles(styles)(FolderInput);
 

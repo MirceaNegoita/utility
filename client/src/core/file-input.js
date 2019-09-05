@@ -1,5 +1,6 @@
 // Internal imports
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // Material UI imports
 import { Paper, Button } from '@material-ui/core';
@@ -26,22 +27,22 @@ const styles = {
 
 class FileInput extends Component {
     render(){
-        const { classes } = this.props;
+        const { classes, label, name, onFileChange } = this.props;
 
         return (
             <Paper className={classes.inputPaper}>
                 <div>
-                    <h1 className={classes.label}>{this.props.label}</h1>
+                    <h1 className={classes.label}>{label}</h1>
                     <input
-                        name={this.props.name}
+                        name={name}
                         accept="text/*"
-                        id={`contained-button-${this.props.name}`}
+                        id={`contained-button-${name}`}
                         className={classes.input}
                         type="file"
                         multiple
-                        onChange={this.props.onFileChange}
+                        onChange={onFileChange}
                     />
-                    <label htmlFor={`contained-button-${this.props.name}`}>
+                    <label htmlFor={`contained-button-${name}`}>
                         <Button variant="contained" color="primary" size="large" component="span" className={classes.button}>
                             Upload
                         </Button>
@@ -50,6 +51,12 @@ class FileInput extends Component {
             </Paper>
         );
     }
+}
+
+FileInput.propTypes = {
+    label: PropTypes.string,
+    name: PropTypes.string,
+    onFileChange: PropTypes.func
 }
 
 export default withStyles(styles)(FileInput);
