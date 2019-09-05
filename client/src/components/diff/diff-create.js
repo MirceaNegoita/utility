@@ -1,7 +1,6 @@
 // Internal imports
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 
 // Material UI imports
 import { Container, Paper, Grid, Typography, TextField, MenuItem, Button } from '@material-ui/core';
