@@ -50,7 +50,7 @@ const styles = {
     },
     list: {
         position: "relative",
-        top: "73px"
+        top: "63px"
     },
     link: {
         textDecoration: "none",
